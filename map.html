@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="zxx">
+
+<head>
+  <meta charset="utf-8">
+  <title>Maps4Daps</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <!-- theme meta -->
+  <meta name="theme-name" content="godocs" />
+  <!-- ** Plugins Needed for the Project ** -->
+  <!-- plugins -->
+  <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="plugins/themify-icons/themify-icons.css">
+  <!-- Main Stylesheet -->
+  <link href="css/style.css" rel="stylesheet">
+  
+  <!--Favicon-->
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.js"></script>
+  
+  <title>Maps</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+<style>
+#map { position: absolute; top: 10%; bottom: 20%; width: 100%; height: 90%;}
+</style>
+</head>
+<body>
+<style>
+    .map-overlay {
+        font:
+            12px/20px 'Helvetica Neue',
+            Arial,
+            Helvetica,
+            sans-serif;
+        position: absolute;
+        width: 200px;
+        top: 10%;
+        left: 5%;
+        padding: 10px;
+    }
+
+    .db-overlay {
+        font:
+            12px/20px 'Helvetica Neue',
+            Arial,
+            Helvetica,
+            sans-serif;
+        position: absolute;
+        width: 200px;
+        top: 30%;
+        left: 5%;
+        padding: 10px;
+    }
+
+    .map-overlay .map-overlay-inner {
+        background-color: #fff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .db-overlay .db-overlay-inner {
+        background-color: #fff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .map-overlay-inner fieldset {
+        display: flex;
+        justify-content: space-between;
+        border: none;
+    }
+
+    .map-overlay-inner label {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .map-overlay-inner .select-fieldset {
+        display: block;
+    }
+
+    .map-overlay-inner .select-fieldset label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .map-overlay-inner .select-fieldset select {
+        width: 100%;
+    }
+
+    .mapboxgl-popup {
+        max-width: 200px;
+    }
+
+    #loc1, #loc2, #loc3, #loc4, #loc5 {
+    width: 30px;
+    height: 30px;
+}
+
+</style>
+</head>
+
+<body>
+
+    <header class="sticky-top navigation">
+        <div class=container>
+          <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+            <a class=navbar-brand href="index.html"><img class="img-fluid" src="images/Maps4DAPS.png" alt="Maps4DAPS" height="100%" width="200px"></a>
+            <div class="collapse navbar-collapse text-center" id=navigation>
+              <ul class="navbar-nav mx-auto align-items-center">
+              </ul>
+              <button class="btn btn-sm btn-outline-primary ml-lg-1" id="submit">Submit Ratings</button>
+              <a href="index.html"><button class="btn btn-sm btn-primary ml-lg-2" id="submit">Home</button></a>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+<section class="section pb-0">
+    <div id="map">
+        <div>
+            <img id="loc1" class="image-marker" src="./images/1.png">
+            <img id="loc2" class="image-marker" src="./images/2.png">
+            <img id="loc3" class="image-marker" src="./images/3.png">
+            <img id="loc4" class="image-marker" src="./images/4.png">
+            <img id="loc5" class="image-marker" src="./images/5.png">
+        </div>
+    </div>
+
+    <div class="map-overlay top">
+        <div class="map-overlay-inner">
+            <fieldset class="select-fieldset">
+                <label>Select light preset</label>
+                <select id="lightPreset" name="lightPreset">
+                    <!-- Each value matches a light preset -->
+                    <option value="dawn">Dawn</option>
+                    <option value="day" selected="">Day</option>
+                    <option value="dusk">Dusk</option>
+                    <option value="night">Night</option>
+                </select>
+            </fieldset>
+            <fieldset>
+                <label for="showPlaceLabels">Show place labels</label>
+                <input type="checkbox" id="showPlaceLabels" checked="">
+            </fieldset>
+            <fieldset>
+                <label for="showPointOfInterestLabels">Show POI labels</label>
+                <input type="checkbox" id="showPointOfInterestLabels" checked="">
+            </fieldset>
+            <fieldset>
+                <label for="showRoadLabels">Show road labels</label>
+                <input type="checkbox" id="showRoadLabels" checked="">
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="db-overlay bottom">
+        <div class="db-overlay-inner">
+            <fieldset class="select-fieldset">
+                <b><label>Rate Disabilities </label></b>
+                </select>
+            </fieldset>
+            <fieldset>
+                <label for="showPlaceLabels">Vision</label>
+                <input type="number" max="5" min="1" id="vision">
+            </fieldset>
+            <fieldset>
+                <label for="showPointOfInterestLabels">Mobility</label>
+                <input type="number" max="5" min="1" id="mobility">
+            </fieldset>
+            <fieldset>
+                <label for="showRoadLabels">Hearing</label>
+                <input type="number" max="5" min="1" id="hearing">
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="db-overlay bottom" style="margin-top: 10%;">
+        <div class="db-overlay-inner">
+            <fieldset class="select-fieldset">
+                <b><label>The Estimated Time of Arrival (ETA) feature is a planned future update that will be integrated into the map. It can be manually calculated using the equation: (1.03012+ 0.00592261.6125(5/3-R.3))GETA = AETA where R equals the relevant star-rating and GETA equals non-disabled ETA.</label></b>
+            </fieldset>
+        </div>
+    </div>
+  </section>
+
+<!-- plugins -->
+<script src="plugins/jQuery/jquery.min.js"></script>
+<script src="plugins/bootstrap/bootstrap.min.js"></script>
+<script src="plugins/masonry/masonry.min.js"></script>
+<script src="plugins/clipboard/clipboard.min.js"></script>
+<script src="plugins/match-height/jquery.matchHeight-min.js"></script>
+
+<!-- Main Script -->
+<script src="js/script.js"></script>
+<script src="js/map.js"></script>
+
+</body>
+</html>
